@@ -32,6 +32,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.MultiValueMap;
 
+import java.util.Objects;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -106,6 +108,7 @@ public class VariableRestfulApiTest {
         mvcResult = mvcUtils.getMessage(mvcUtils.buildMvcResultPost(url));
       }
     }
+    Objects.requireNonNull(mvcResult, "mvcResult must not be null");
     assertEquals(MessageStatus.SUCCESS(), mvcResult.getStatus());
     logger.info(String.valueOf(mvcResult));
   }

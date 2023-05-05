@@ -28,7 +28,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PlainTextFileWriter implements DisplayOperator {
+
+  private static final Logger LOG = LoggerFactory.getLogger(PlainTextFileWriter.class);
+
   @Override
   public void doOutput(DisplayData data) {
     if (!(data instanceof FileDisplayData)) {
@@ -62,7 +68,9 @@ public class PlainTextFileWriter implements DisplayOperator {
 
     if (overWrite || !file.exists()) {
       try {
-        file.createNewFile();
+        if (!file.createNewFile()) {
+          LOG.error("File creation failed(文件创建失败)");
+        }
       } catch (Exception e) {
         throw new PresenterException(
             "PST0006",

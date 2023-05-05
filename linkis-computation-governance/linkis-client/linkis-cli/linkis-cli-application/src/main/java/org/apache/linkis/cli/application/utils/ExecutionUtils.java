@@ -24,6 +24,7 @@ import org.apache.linkis.cli.common.exception.error.ErrorLevel;
 import org.apache.linkis.cli.core.exception.BuilderException;
 import org.apache.linkis.cli.core.exception.error.CommonErrMsg;
 import org.apache.linkis.cli.core.utils.LogUtils;
+import org.apache.linkis.common.utils.CloseIoUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -167,12 +168,13 @@ public class ExecutionUtils {
   }
 
   public static String readFile(String path) {
+    BufferedReader bufReader = null;
     try {
       File inputFile = new File(path);
 
       InputStream inputStream = new FileInputStream(inputFile);
       InputStreamReader iReader = new InputStreamReader(inputStream);
-      BufferedReader bufReader = new BufferedReader(iReader);
+      bufReader = new BufferedReader(iReader);
 
       StringBuilder sb = new StringBuilder();
       StringBuilder line;
@@ -180,7 +182,6 @@ public class ExecutionUtils {
         line = new StringBuilder(bufReader.readLine());
         sb.append(line).append(System.lineSeparator());
       }
-
       return sb.toString();
 
     } catch (FileNotFoundException fe) {
@@ -197,6 +198,8 @@ public class ExecutionUtils {
           CommonErrMsg.BuilderBuildErr,
           "Cannot read user specified script file: " + path,
           e);
+    } finally {
+      CloseIoUtils.closeAll(bufReader);
     }
   }
 }

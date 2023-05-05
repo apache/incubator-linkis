@@ -15,37 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.linkis.cs.condition;
+package org.apache.linkis.common.utils;
 
-public abstract class BinaryLogicCondition extends AbstractCommonCondition {
+import java.io.Closeable;
+import java.io.IOException;
 
-  Condition left;
-  Condition right;
+public class CloseIoUtils {
 
-  public BinaryLogicCondition(Condition left, Condition right) {
-    this.left = left;
-    this.right = right;
-  }
-
-  public void shift() {
-    Condition tmp = this.left;
-    this.left = this.right;
-    this.right = tmp;
-  }
-
-  public Condition getLeft() {
-    return left;
-  }
-
-  public void setLeft(Condition left) {
-    this.left = left;
-  }
-
-  public Condition getRight() {
-    return right;
-  }
-
-  public void setRight(Condition right) {
-    this.right = right;
+  public static void closeAll(Closeable... cs) {
+    if (cs != null) {
+      for (Closeable c : cs) {
+        if (c != null) {
+          try {
+            c.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    }
   }
 }

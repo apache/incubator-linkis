@@ -32,6 +32,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.Objects;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -176,6 +178,7 @@ public class ConfigurationRestfulApiTest {
         mvcResult = mvcUtils.getMessage(mvcUtils.buildMvcResultPost(url));
       }
     }
+    Objects.requireNonNull(mvcResult, "mvcResult must not be null");
     assertEquals(MessageStatus.SUCCESS(), mvcResult.getStatus());
     logger.info(String.valueOf(mvcResult));
   }
